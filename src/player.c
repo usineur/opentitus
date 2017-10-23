@@ -54,6 +54,15 @@ static int YACCELERATION_NEG(TITUS_player *player, int16 maxspeed);
 static int ACTION_PRG(TITUS_level *level, uint8 action);
 int16 add_carry();
 
+
+int buttonPressed(int i) {
+#ifdef __PSP2__
+    return SDL_JoystickGetButton(joystick, i);
+#else
+    return 0;
+#endif
+}
+
 int move_player(TITUS_level *level) {
     //Part 1: Check keyboard input
     //Part 2: Determine the player's action, and execute action dependent code
@@ -75,10 +84,18 @@ int move_player(TITUS_level *level) {
     while(SDL_PollEvent(&event)) { //Check all events
         if (event.type == SDL_QUIT) {
             return TITUS_ERROR_QUIT;
+#ifdef __PSP2__
+        } else if (event.type == SDL_JOYBUTTONDOWN) {
+#else
         } else if (event.type == SDL_KEYDOWN) {
-#ifdef _DINGUX
+#endif
+#if defined(_DINGUX) || defined(__PSP2__)
+#ifdef __PSP2__
+            if (event.jbutton.button == KEY_CHEAT && (devmode == 1)) {
+#else
             if (event.key.keysym.sym == KEY_CHEAT && (devmode == 1)) {
-                if (keystate[KEY_SKIPLEVEL]) {
+#endif
+                if (keystate[KEY_SKIPLEVEL] || buttonPressed(KEY_SKIPLEVEL)) {
                     NEWLEVEL_FLAG = true;
                 } else if (!GODMODE && !NOCLIP) {
                     GODMODE = true;
@@ -102,7 +119,11 @@ int move_player(TITUS_level *level) {
                         }
                     }
                 }
+#ifdef __PSP2__
+            } else if (event.jbutton.button == KEY_STATUS) {
+#else
             } else if (event.key.keysym.sym == KEY_STATUS) {
+#endif
                 if (BAR_FLAG == 0) {
                     BAR_FLAG = 50; //Display energy
                 } else {
@@ -147,27 +168,41 @@ int move_player(TITUS_level *level) {
 				}
 #endif //DEBUG_VERSION
 #else //_DINGUX
+#ifdef __PSP2__
+            if ((event.jbutton.button == KEY_GODMODE) && (devmode == 1)) {
+#else
             if ((event.key.keysym.sym == KEY_GODMODE) && (devmode == 1)) {
+#endif
                 if (GODMODE) {
                     GODMODE = false;
                     NOCLIP = false;
                 } else {
                     GODMODE = true;
                 }
+#ifdef __PSP2__
+            } else if ((event.jbutton.button == KEY_NOCLIP) && (devmode == 1)) {
+#else
             } else if ((event.key.keysym.sym == KEY_NOCLIP) && (devmode == 1)) {
+#endif
                 if (NOCLIP) {
                     NOCLIP = false;
                 } else {
                     NOCLIP = true;
                     GODMODE = true;
                 }
+#ifdef __PSP2__
+            } else if (event.jbutton.button == KEY_MUSIC) {
+#else
             } else if (event.key.keysym.sym == KEY_MUSIC) {
+#endif
                 AUDIOMODE++;
                 if (AUDIOMODE > 1) {
                     AUDIOMODE = 0;
                 }
 				if (AUDIOMODE == 1) {
+#ifdef AUDIO_ENABLE
 					startmusic();
+#endif
 				}
             } else if ((event.key.keysym.sym == SDLK_l) && (orig_sky_colour[level->levelnumber] != 0)) { //Toggle amiga lines
 				AMIGA_LINES = !AMIGA_LINES;
@@ -193,7 +228,7 @@ int move_player(TITUS_level *level) {
             }
         } else if (event.type == SDL_KEYUP) {
 #ifdef _DINGUX
-            if ((event.key.keysym.sym == KEY_F1) && (devmode == 1) && !keystate[KEY_CHEAT] && (RESETLEVEL_FLAG == 0)) {
+            if ((event.key.keysym.sym == KEY_F1) && (devmode == 1) && !(keystate[KEY_CHEAT] || buttonPressed(KEY_CHEAT)) && (RESETLEVEL_FLAG == 0)) {
                 CASE_DEAD_IM(level);
                 RESETLEVEL_FLAG--;
                 return;
@@ -203,10 +238,10 @@ int move_player(TITUS_level *level) {
 
         }
     }
-    if (keystate[KEY_ESC]) {
+    if (keystate[KEY_ESC] || buttonPressed(KEY_ESC)) {
         return TITUS_ERROR_QUIT;
     }
-#ifdef _DINGUX
+#if defined(_DINGUX) || defined(__PSP2__)
 
 #else
     if (keystate[KEY_F1] && (RESETLEVEL_FLAG == 0)) { //F1 = suicide
@@ -239,19 +274,19 @@ int move_player(TITUS_level *level) {
 
 
     //Part 2: Determine the player's action, and execute action dependent code
-    X_FLAG = keystate[KEY_LEFT] | keystate[KEY_RIGHT]; //Set if either is true
-    Y_FLAG = keystate[KEY_UP] | keystate[KEY_JUMP] | keystate[KEY_DOWN]; //Set if either is true
+    X_FLAG = (keystate[KEY_LEFT] || buttonPressed(KEY_LEFT)) | (keystate[KEY_RIGHT] || buttonPressed(KEY_RIGHT)); //Set if either is true
+    Y_FLAG = (keystate[KEY_UP] || buttonPressed(KEY_UP)) | (keystate[KEY_JUMP] || buttonPressed(KEY_JUMP)) | (keystate[KEY_DOWN] || buttonPressed(KEY_DOWN)); //Set if either is true
     if (NOCLIP) {
-        if (keystate[KEY_LEFT]) {
+        if ((keystate[KEY_LEFT] || buttonPressed(KEY_LEFT))) {
             player->sprite.speedX = -100;
-        } else if (keystate[KEY_RIGHT]) {
+        } else if ((keystate[KEY_RIGHT] || buttonPressed(KEY_RIGHT))) {
             player->sprite.speedX = 100;
         } else {
             player->sprite.speedX = 0;
         }
-        if (keystate[KEY_UP] || keystate[KEY_JUMP]) {
+        if ((keystate[KEY_UP] || buttonPressed(KEY_UP)) || (keystate[KEY_JUMP] || buttonPressed(KEY_JUMP))) {
             player->sprite.speedY = -100;
-        } else if (keystate[KEY_DOWN]) {
+        } else if ((keystate[KEY_DOWN] || buttonPressed(KEY_DOWN))) {
             player->sprite.speedY = 100;
         } else {
             player->sprite.speedY = 0;
@@ -273,12 +308,12 @@ int move_player(TITUS_level *level) {
         GRANDBRULE_FLAG = false;
         if (LADDER_FLAG) {
             action = 6; //Action: climb
-        } else if (!PRIER_FLAG && (keystate[KEY_UP] || keystate[KEY_JUMP]) && (SAUT_FLAG == 0)) {
+        } else if (!PRIER_FLAG && ((keystate[KEY_UP] || buttonPressed(KEY_UP)) || (keystate[KEY_JUMP] || buttonPressed(KEY_JUMP))) && (SAUT_FLAG == 0)) {
             action = 2; //Action: jump
             if (LAST_ORDER == 5) { //Test if last order was kneestanding
                 FURTIF_FLAG = 100; //If jump after kneestanding, init silent walk timer
             }
-        } else if (PRIER_FLAG || ((SAUT_FLAG != 6) && keystate[KEY_DOWN])) {
+        } else if (PRIER_FLAG || ((SAUT_FLAG != 6) && (keystate[KEY_DOWN] || buttonPressed(KEY_DOWN)))) {
             if (X_FLAG) { //Move left or right
                 action = 3; //Action: crawling
             } else {
@@ -290,7 +325,7 @@ int move_player(TITUS_level *level) {
             action = 0;  //Action: rest (no action)
         }
         //Is space button pressed?
-        if (keystate[KEY_SPACE] && !PRIER_FLAG) {
+        if ((keystate[KEY_SPACE] || buttonPressed(KEY_SPACE)) && !PRIER_FLAG) {
             if (!DROP_FLAG) {
                 if ((action == 3) || (action == 5)) { //Kneestand
                     DROPREADY_FLAG = false;
@@ -314,9 +349,9 @@ int move_player(TITUS_level *level) {
         } else { // 0 or 1
             newsensX = 0;
         }
-    } else if (keystate[KEY_LEFT]) {
+    } else if ((keystate[KEY_LEFT] || buttonPressed(KEY_LEFT))) {
         newsensX = -1;
-    } else if (keystate[KEY_RIGHT]) {
+    } else if ((keystate[KEY_RIGHT] || buttonPressed(KEY_RIGHT))) {
         newsensX = 1;
     } else if (SENSX == -1) {
         newsensX = -1;
@@ -471,18 +506,33 @@ t_pause (TITUS_level *level) {
         while(SDL_PollEvent(&event)) { //Check all events
             if (event.type == SDL_QUIT) {
                 return TITUS_ERROR_QUIT;
+#ifdef __PSP2__
+            } else if (event.type == SDL_JOYBUTTONDOWN) {
+                if (event.jbutton.button == KEY_ESC) {
+#else
             } else if (event.type == SDL_KEYDOWN) {
                 if (event.key.keysym.sym == KEY_ESC) {
+#endif
                     return TITUS_ERROR_QUIT;
+#ifdef __PSP2__
+                } else if (event.jbutton.button == KEY_MUSIC) {
+#else
                 } else if (event.key.keysym.sym == KEY_MUSIC) {
+#endif
 					AUDIOMODE++;
 					if (AUDIOMODE > 1) {
 						AUDIOMODE = 0;
 					}
 					if (AUDIOMODE == 1) {
+#ifdef AUDIO_ENABLE
 						startmusic();
+#endif
 					}
+#ifdef __PSP2__
+                } else if (event.jbutton.button == KEY_P) {
+#else
                 } else if (event.key.keysym.sym == KEY_P) {
+#endif
                     return 0;
                 }
             }
@@ -905,7 +955,7 @@ static int BLOCK_YYPRG(TITUS_level *level, uint8 floor, uint8 floor_above, uint8
                 ARAB_BLOCK_YU(player); //Stop fall
                 return;
             }
-            if ((keystate[KEY_UP] || keystate[KEY_JUMP]) && (order == 6)) { //action UP + climb ladder
+            if (((keystate[KEY_UP] || buttonPressed(KEY_UP)) || (keystate[KEY_JUMP] || buttonPressed(KEY_JUMP))) && (order == 6)) { //action UP + climb ladder
                 ARAB_BLOCK_YU(player); //Stop fall
                 return;
             }
@@ -1151,7 +1201,7 @@ static int ACTION_PRG(TITUS_level *level, uint8 action) {
                     player->sprite.x += 16;
                 }
             }
-            if (!keystate[KEY_UP] && !keystate[KEY_JUMP]) {
+            if (!(keystate[KEY_UP] || buttonPressed(KEY_UP)) && !(keystate[KEY_JUMP] || buttonPressed(KEY_JUMP))) {
                 player->sprite.speedY = 4 * 16;
             } else {
                 player->sprite.speedY = 0 - (4 * 16);
@@ -1373,7 +1423,7 @@ static int ACTION_PRG(TITUS_level *level, uint8 action) {
         GET_IMAGE(level);
         DECELERATION(player);
         if (CARRY_FLAG) {
-            if (!keystate[KEY_UP] && !keystate[KEY_JUMP]) { //Ordinary throw
+            if (!(keystate[KEY_UP] || buttonPressed(KEY_UP)) && !(keystate[KEY_JUMP] || buttonPressed(KEY_JUMP))) { //Ordinary throw
                 speedX = 0x0E * 16;
                 speedY = 0;
                 if (player->sprite.flipped) {
@@ -1663,10 +1713,10 @@ COLLISION_OBJET(TITUS_level *level) {
       (player->sprite.speedY > (16 * 3)) &&
       (off_object->objectdata->bounce)) {
         //Bounce on a ball if no long kneestand (down key)
-        if (keystate[KEY_DOWN]) {
+        if ((keystate[KEY_DOWN] || buttonPressed(KEY_DOWN))) {
             player->sprite.speedY = 0;
         } else {
-            if (keystate[KEY_UP] || keystate[KEY_JUMP]) {
+            if ((keystate[KEY_UP] || buttonPressed(KEY_UP)) || (keystate[KEY_JUMP] || buttonPressed(KEY_JUMP))) {
                 player->sprite.speedY += 16 * 3; //increase speed
             } else {
                 player->sprite.speedY -= 16; //reduce speed

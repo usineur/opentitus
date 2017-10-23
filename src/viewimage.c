@@ -195,20 +195,33 @@ int viewimage(char * imagefile, int imageformat, int displayformat, int delay) {
                     return (-1);
                 }
 
+#ifdef __PSP2__
+                if (event.type == SDL_JOYBUTTONDOWN) {
+                    if (event.jbutton.button == SDLK_ESCAPE) {
+#else
                 if (event.type == SDL_KEYDOWN) {
                     if (event.key.keysym.sym == SDLK_ESCAPE) {
+#endif
                         SDL_FreeSurface(image);
                         SDL_FreeSurface(surface);
                         return (-1);
                     }
 
+#ifdef __PSP2__
+                    if (event.jbutton.button == KEY_RETURN || event.jbutton.button == KEY_ENTER || event.jbutton.button == KEY_SPACE) {
+#else
                     if (event.key.keysym.sym == KEY_RETURN || event.key.keysym.sym == KEY_ENTER || event.key.keysym.sym == KEY_SPACE) {
+#endif
                         activedelay = 0;
                         fadeoutskip = 255 - image_alpha;
                     }
 
 #ifdef AUDIO_ENABLED
+#ifdef __PSP2__
+                    if (event.jbutton.button == KEY_MUSIC) {
+#else
                     if (event.key.keysym.sym == KEY_MUSIC) {
+#endif
 						AUDIOMODE++;
 						if (AUDIOMODE > 1) {
 							AUDIOMODE = 0;
@@ -252,18 +265,31 @@ int viewimage(char * imagefile, int imageformat, int displayformat, int delay) {
                     return (-1);
                 }
 
+#ifdef __PSP2__
+                if (event.type == SDL_JOYBUTTONDOWN) {
+                    if (event.jbutton.button == SDLK_ESCAPE) {
+#else
                 if (event.type == SDL_KEYDOWN) {
                     if (event.key.keysym.sym == SDLK_ESCAPE) {
+#endif
                         SDL_FreeSurface(image);
                         SDL_FreeSurface(surface);
                         return (-1);
                     }
 
+#ifdef __PSP2__
+                    if (event.jbutton.button == KEY_RETURN || event.jbutton.button == KEY_ENTER || event.jbutton.button == KEY_SPACE)
+#else
                     if (event.key.keysym.sym == KEY_RETURN || event.key.keysym.sym == KEY_ENTER || event.key.keysym.sym == KEY_SPACE)
+#endif
                         activedelay = 0;
 
 #ifdef AUDIO_ENABLED
+#ifdef __PSP2__
+                    if (event.jbutton.button == KEY_MUSIC) {
+#else
                     if (event.key.keysym.sym == KEY_MUSIC) {
+#endif
 						AUDIOMODE++;
 						if (AUDIOMODE > 1) {
 							AUDIOMODE = 0;
@@ -300,14 +326,23 @@ int viewimage(char * imagefile, int imageformat, int displayformat, int delay) {
                     return (-1);
                 }
 
+#ifdef __PSP2__
+                if (event.type == SDL_JOYBUTTONDOWN) {
+                    if (event.jbutton.button == SDLK_ESCAPE) {
+#else
                 if (event.type == SDL_KEYDOWN) {
                     if (event.key.keysym.sym == SDLK_ESCAPE) {
+#endif
                         SDL_FreeSurface(image);
                         SDL_FreeSurface(surface);
                         return (-1);
                     }
 #ifdef AUDIO_ENABLED
+#ifdef __PSP2__
+                    if (event.jbutton.button == KEY_MUSIC) {
+#else
                     if (event.key.keysym.sym == KEY_MUSIC) {
+#endif
 						AUDIOMODE++;
 						if (AUDIOMODE > 1) {
 							AUDIOMODE = 0;
@@ -364,14 +399,23 @@ int viewimage(char * imagefile, int imageformat, int displayformat, int delay) {
                     return (-1);
                 }
 
+#ifdef __PSP2__
+                if (event.type == SDL_JOYBUTTONDOWN) {
+                    if (event.jbutton.button == SDLK_ESCAPE) {
+#else
                 if (event.type == SDL_KEYDOWN) {
                     if (event.key.keysym.sym == SDLK_ESCAPE) {
+#endif
                         SDL_FreeSurface(image);
                         SDL_FreeSurface(surface);
                         return (-1);
                     }
 #ifdef AUDIO_ENABLED
+#ifdef __PSP2__
+                    if (event.jbutton.button == KEY_MUSIC) {
+#else
                     if (event.key.keysym.sym == KEY_MUSIC) {
+#endif
 						AUDIOMODE++;
 						if (AUDIOMODE > 1) {
 							AUDIOMODE = 0;

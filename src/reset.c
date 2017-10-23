@@ -133,20 +133,36 @@ uint8 RESET_LEVEL(TITUS_level *level) {
             while(SDL_PollEvent(&event)) { //Check all events
                 if (event.type == SDL_QUIT) {
                     return TITUS_ERROR_QUIT;
+#ifdef __PSP2__
+                } else if (event.type == SDL_JOYBUTTONDOWN) {
+                    if (event.jbutton.button == KEY_ESC) {
+#else
                 } else if (event.type == SDL_KEYDOWN) {
                     if (event.key.keysym.sym == KEY_ESC) {
+#endif
                         return TITUS_ERROR_QUIT;
+#ifdef __PSP2__
+                    } else if (event.jbutton.button == KEY_MUSIC) {
+#else
                     } else if (event.key.keysym.sym == KEY_MUSIC) {
+#endif
 						AUDIOMODE++;
 						if (AUDIOMODE > 1) {
 							AUDIOMODE = 0;
 						}
 						if (AUDIOMODE == 1) {
+#ifdef AUDIO_ENABLE
 							startmusic();
+#endif
 						}
 					}
+#ifdef __PSP2__
+                } else if (event.type == SDL_JOYBUTTONUP) {
+                    if (event.jbutton.button == KEY_RETURN || event.jbutton.button == KEY_ENTER || event.jbutton.button == KEY_SPACE) {
+#else
                 } else if (event.type == SDL_KEYUP) {
                     if (event.key.keysym.sym == KEY_RETURN || event.key.keysym.sym == KEY_ENTER || event.key.keysym.sym == KEY_SPACE) {
+#endif
                         pass = true;
                         break;
                     }

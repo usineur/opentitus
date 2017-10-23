@@ -65,6 +65,7 @@
 #include "engine.h"
 #include "original.h"
 #include "objects.h"
+#include "globals.h"
 
 int main(int argc, char *argv[]) {
 
@@ -74,11 +75,13 @@ int main(int argc, char *argv[]) {
     if (retval < 0)
         state = 0;
 
+#ifndef __PSP2__
     if (state) {
         retval = viewintrotext();
         if (retval < 0)
             state = 0;
     }
+#endif
 
     if (state) {
         retval = viewimage(tituslogofile, tituslogoformat, 0, 4000);
@@ -149,6 +152,17 @@ int init() {
     //fullscreen
     SDL_ShowCursor(SDL_DISABLE);
     screen = SDL_SetVideoMode(reswidth, resheight, bitdepth, SDL_SWSURFACE);
+#elif __PSP2__
+    SDL_ShowCursor(SDL_DISABLE);
+    screen = SDL_SetVideoMode(reswidth, resheight, bitdepth, SDL_HWSURFACE|SDL_DOUBLEBUF);
+
+    int sh = 544;
+    int sw = (float)screen->w*((float)sh/(float)screen->h);
+    int x = (960 - sw) / 2;
+    SDL_SetVideoModeScaling(x, 0, sw, sh);
+
+    SDL_InitSubSystem(SDL_INIT_JOYSTICK);
+    joystick = SDL_JoystickOpen(0);
 #else
     switch (videomode) {
     case 0: //window mode
@@ -194,7 +208,9 @@ int init() {
 #endif
 */
 
+#ifdef AUDIO_ENABLED
 	initaudio();
+#endif
 
     initoriginal();
 

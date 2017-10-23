@@ -409,7 +409,7 @@ int flip_screen(bool slow) {
     tick = SDL_GetTicks();
     SUBTIME[14] = tick - oldtick;
     
-#ifdef _DINGUX
+#if defined(_DINGUX) || defined(__PSP2__)
     if (slow) {
         NO_FAST_CPU(slow);
     }
@@ -451,7 +451,7 @@ NO_FAST_CPU(bool slow) {
 }
 */
 
-NO_FAST_CPU(bool slow) {
+void NO_FAST_CPU(bool slow) {
     int tick, duration, delay, tick2;
     tick = SDL_GetTicks();
     if (slow) {
@@ -654,13 +654,22 @@ int fadeout() {
                 return (-1);
             }
 
+#ifdef __PSP2__
+            if (event.type == SDL_JOYBUTTONDOWN) {
+                if (event.jbutton.button == SDLK_ESCAPE) {
+#else
             if (event.type == SDL_KEYDOWN) {
                 if (event.key.keysym.sym == SDLK_ESCAPE) {
+#endif
                     SDL_FreeSurface(image);
                     return (-1);
                 }
 #ifdef AUDIO_ENABLED
+#ifdef __PSP2__
+                if (event.jbutton.button == KEY_MUSIC) {
+#else
                 if (event.key.keysym.sym == KEY_MUSIC) {
+#endif
 					AUDIOMODE++;
 					if (AUDIOMODE > 1) {
 						AUDIOMODE = 0;

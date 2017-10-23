@@ -38,6 +38,7 @@
 #include "audio.h"
 #include "globals.h"
 #include "common.h"
+#include "SDL/SDL_image.h"
 
 //Probably not the best way, but it works...
 #define HAVE_CONFIG_H 1
@@ -48,6 +49,10 @@
 
 #ifdef AUDIO_ENABLED
 #include "audio.h"
+#endif
+
+#ifdef __PSP2__
+#include <kbdvita.h>
 #endif
 
 int viewmenu(char * menufile, int menuformat) {
@@ -175,13 +180,22 @@ int viewmenu(char * menufile, int menuformat) {
                 return (-1);
             }
 
+#ifdef __PSP2__
+            if (event.type == SDL_JOYBUTTONDOWN) {
+                if (event.jbutton.button == SDLK_ESCAPE) {
+#else
             if (event.type == SDL_KEYDOWN) {
                 if (event.key.keysym.sym == SDLK_ESCAPE) {
+#endif
                     SDL_FreeSurface(image);
                     return (-1);
                 }
 #ifdef AUDIO_ENABLED
+#ifdef __PSP2__
+                if (event.jbutton.button == KEY_MUSIC) {
+#else
                 if (event.key.keysym.sym == KEY_MUSIC) {
+#endif
 					AUDIOMODE++;
 					if (AUDIOMODE > 1) {
 						AUDIOMODE = 0;
@@ -227,19 +241,40 @@ int viewmenu(char * menufile, int menuformat) {
                 return (-1);
             }
 
+#ifdef __PSP2__
+            if (event.type == SDL_JOYBUTTONDOWN) {
+                if (event.jbutton.button == SDLK_ESCAPE) {
+#else
             if (event.type == SDL_KEYDOWN) {
                 if (event.key.keysym.sym == SDLK_ESCAPE) {
+#endif
                     SDL_FreeSurface(image);
                     return (-1);
                 }
-                if (event.key.keysym.sym == SDLK_UP)
+#ifdef __PSP2__
+                if (event.jbutton.button == KEY_UP)
+#else
+                if (event.key.keysym.sym == KEY_UP)
+#endif
                     selection = 0;
-                if (event.key.keysym.sym == SDLK_DOWN)
+#ifdef __PSP2__
+                if (event.jbutton.button == KEY_DOWN)
+#else
+                if (event.key.keysym.sym == KEY_DOWN)
+#endif
                     selection = 1;
+#ifdef __PSP2__
+                if (event.jbutton.button == KEY_RETURN || event.jbutton.button == KEY_ENTER || event.jbutton.button == KEY_SPACE)
+#else
                 if (event.key.keysym.sym == KEY_RETURN || event.key.keysym.sym == KEY_ENTER || event.key.keysym.sym == KEY_SPACE)
+#endif
                     menuloop = 0;
 #ifdef AUDIO_ENABLED
+#ifdef __PSP2__
+                if (event.jbutton.button == KEY_MUSIC) {
+#else
                 if (event.key.keysym.sym == KEY_MUSIC) {
+#endif
 					AUDIOMODE++;
 					if (AUDIOMODE > 1) {
 						AUDIOMODE = 0;
@@ -304,13 +339,22 @@ int viewmenu(char * menufile, int menuformat) {
                 return (-1);
             }
 
+#ifdef __PSP2__
+            if (event.type == SDL_JOYBUTTONDOWN) {
+                if (event.jbutton.button == SDLK_ESCAPE) {
+#else
             if (event.type == SDL_KEYDOWN) {
                 if (event.key.keysym.sym == SDLK_ESCAPE) {
+#endif
                     SDL_FreeSurface(image);
                     return (-1);
                 }
 #ifdef AUDIO_ENABLED
+#ifdef __PSP2__
+                if (event.jbutton.button == KEY_MUSIC) {
+#else
                 if (event.key.keysym.sym == KEY_MUSIC) {
+#endif
 					AUDIOMODE++;
 					if (AUDIOMODE > 1) {
 						AUDIOMODE = 0;
@@ -367,6 +411,13 @@ int enterpassword(){
     int counter = 0;
 #endif
 
+#ifdef __PSP2__
+    char *str = kbdvita_get("Enter your code", 4);
+    strncpy(code, (str != NULL) ? str : "0000", 4);
+    for (char* c = code; *c = toupper(*c); ++c);
+    SDL_Print_Text(code, 159, 80);
+    SDL_Flip(screen);
+#else
     for (i = 0; i < 4; ) {
         while(SDL_PollEvent(&event)) { //Check all events
             if (event.type == SDL_QUIT) {
@@ -456,6 +507,7 @@ int enterpassword(){
 #endif
 
     }
+#endif
 
     for (i = 0; i < levelcount; i++) {
         if (strcmp (code, levelcode[i]) == 0) {

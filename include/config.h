@@ -30,8 +30,8 @@
 #define CONFIG_H
 
 /* Define to 1 if you want to compile with debug support */
-//#undef DEBUG_VERSION
-#define DEBUG_VERSION 1
+#undef DEBUG_VERSION
+//#define DEBUG_VERSION 1
 
 /* Define to 1 if you want to compile with audio support */
 //#undef AUDIO_ENABLED

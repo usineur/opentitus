@@ -71,6 +71,26 @@
 #define KEY_DEBUG       DINGOO_BUTTON_Y //Toggle debug mode
 #define KEY_MUSIC       DINGOO_BUTTON_Y //Toggle music
 
+#elif __PSP2__
+
+#define KEY_F1          SDLK_F1 //Loose a life, not in use
+#define KEY_F2          SDLK_F2 //Game over, not in use
+#define KEY_STATUS      0 //Energy + status page (TRIANGLE)
+#define KEY_LEFT        7 //Left
+#define KEY_RIGHT       9 //Right
+#define KEY_UP          8 //Up
+#define KEY_DOWN        6 //Down
+#define KEY_JUMP        1 //Jump (CIRCLE)
+#define KEY_SPACE       2 //Space (CROSS)
+#define KEY_ENTER       11 //Enter (START)
+#define KEY_RETURN      11 //Return (START)
+#define KEY_ESC         10 //Quit (SELECT)
+#define KEY_P           11 //Toggle pause (START)
+#define KEY_CHEAT       4 //Toggle cheat noclip/godmode (LTRIGGER)
+#define KEY_SKIPLEVEL   5 //Skip level (RTRIGGER)
+#define KEY_DEBUG       3 //Toggle debug mode (SQUARE)
+#define KEY_MUSIC       3 //Toggle music (SQUARE)
+
 #else
 
 #define KEY_F1 SDLK_F1 //Loose a life
@@ -234,6 +254,10 @@ typedef struct {
 SPRITEDATA spritedata[256]; 
 
 uint16 level_code[16];
+
+#ifdef __PSP2__
+SDL_Joystick* joystick;
+#endif
 
 #endif
 

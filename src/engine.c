@@ -411,7 +411,7 @@ int death(TITUS_level *level) {
 #ifdef AUDIO_ENABLED
     WAIT_SONG();
 #endif
-#ifndef _DINGUX
+#if !defined(_DINGUX) && !defined(__PSP2__)
     CLOSE_SCREEN();
 #endif
 }
