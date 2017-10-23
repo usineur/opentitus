@@ -226,13 +226,31 @@ DISPLAY_SPRITES(TITUS_level *level) {
         display_sprite(level, &(level->object[i].sprite));
     }
 
+#ifdef __PSP2__
+    int tick_ = SDL_GetTicks();
+    if (GODMODE && ((tick_ - godtick) < 2000)) { // Invincible during 2 seconds after a hit
+        if ((tick_ % 100) > 25) {
+            display_sprite(level, &(level->player.sprite3));
+            display_sprite(level, &(level->player.sprite2));
+            display_sprite(level, &(level->player.sprite));
+        }
+    } else {
+        GODMODE = false;
+        display_sprite(level, &(level->player.sprite3));
+        display_sprite(level, &(level->player.sprite2));
+        display_sprite(level, &(level->player.sprite));
+    }
+#else
     display_sprite(level, &(level->player.sprite3));
     display_sprite(level, &(level->player.sprite2));
     display_sprite(level, &(level->player.sprite));
+#endif
 
+#ifndef __PSP2__
     if (GODMODE) {
         SDL_Print_Text("GODMODE", 30 * 8, 0 * 12);
     }
+#endif
     if (NOCLIP) {
         SDL_Print_Text("NOCLIP", 30 * 8, 1 * 12);
     }

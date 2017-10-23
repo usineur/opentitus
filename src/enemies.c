@@ -1230,6 +1230,10 @@ ACTIONC_NMI(TITUS_level *level, TITUS_enemy *enemy) {
     case 14:
     case 18:
         if (NMI_VS_DROP(&(enemy->sprite), &(level->player.sprite))) {
+#ifdef __PSP2__
+            GODMODE = true;
+            godtick = SDL_GetTicks();
+#endif
             if (enemy->type != 11) { //Walk and shoot
                 if (enemy->sprite.number != 178) { //Periscope
                     enemy->sprite.speedX = 0 - enemy->sprite.speedX;

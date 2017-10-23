@@ -163,13 +163,18 @@ int playtitus(int firstlevel){
 		}
 
         first = true;
+#ifdef __PSP2__
+        GODMODE = false;
+#endif
         while (1) {
 #ifdef AUDIO_ENABLED
             SELECT_MUSIC(0);
 #endif
             CLEAR_DATA(&level);
 
+#ifndef __PSP2__
             GODMODE = false;
+#endif
             NOCLIP = false;
             DISPLAYLOOPTIME = false;
 

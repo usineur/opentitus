@@ -257,6 +257,7 @@ uint16 level_code[16];
 
 #ifdef __PSP2__
 SDL_Joystick* joystick;
+int godtick;
 #endif
 
 #endif
