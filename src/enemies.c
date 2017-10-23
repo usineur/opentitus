@@ -1199,7 +1199,7 @@ GAL_FORM(TITUS_level *level, TITUS_enemy *enemy) { //Enemy animation
         enemy->sprite.invisible = true;
         return;
     }
-    enemy->trigger = *image & 0x2000;
+    enemy->trigger = ((*image & 0x2000) != 0);
     updateenemysprite(level, enemy, (*image & 0x00FF) + FIRST_NMI, true);
     enemy->sprite.flipped = (enemy->sprite.speedX < 0) ? true : false;
     image++;
