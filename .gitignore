@@ -1,0 +1,4 @@
+opentitus
+*.o
+moktar/*.SQZ
+titus/*.SQZ
