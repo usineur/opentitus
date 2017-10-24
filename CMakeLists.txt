@@ -5,8 +5,17 @@ if( NOT DEFINED CMAKE_TOOLCHAIN_FILE )
   if( DEFINED ENV{VITASDK} )
     set(CMAKE_TOOLCHAIN_FILE "$ENV{VITASDK}/share/vita.toolchain.cmake" CACHE PATH "toolchain file")
   else()
+    unset(TITUS CACHE)
+    unset(MOKTAR CACHE)
     message(FATAL_ERROR "Please define VITASDK to point to your SDK path!")
   endif()
+endif()
+
+# Game selection
+if ((NOT DEFINED TITUS AND NOT DEFINED MOKTAR) OR (DEFINED TITUS AND DEFINED MOKTAR))
+  unset(TITUS CACHE)
+  unset(MOKTAR CACHE)
+  message(FATAL_ERROR "Use cmake with -DTITUS=1 or -DMOKTAR=1 (exclusive).")
 endif()
 
 # Project start
@@ -61,12 +70,27 @@ target_link_libraries(${VITA_APPNAME}
 
 # Create Vita artifacts
 vita_create_self(eboot.bin ${VITA_APPNAME} UNSAFE)
-vita_create_vpk(${VITA_APPNAME}.vpk ${VITA_TITLEID} eboot.bin
-  VERSION ${VITA_VERSION}
-  NAME ${VITA_APPNAME}
-  FILE vita/res/icon0.png sce_sys/icon0.png
-  FILE vita/res/bg.png sce_sys/livearea/contents/bg.png
-  FILE vita/res/startup.png sce_sys/livearea/contents/startup.png
-  FILE vita/res/template.xml sce_sys/livearea/contents/template.xml
-  FILE vita/titus_vita.conf titus_vita.conf
-)
+if (TITUS)
+  vita_create_vpk(Titus.vpk ${VITA_TITLEID} eboot.bin
+    VERSION ${VITA_VERSION}
+    NAME ${VITA_APPNAME}
+    FILE vita/icon0.png sce_sys/icon0.png
+    FILE vita/bg_titus.png sce_sys/livearea/contents/bg.png
+    FILE vita/startup_titus.png sce_sys/livearea/contents/startup.png
+    FILE vita/template.xml sce_sys/livearea/contents/template.xml
+    FILE vita/vita_titus.conf titus_vita.conf
+  )
+elseif (MOKTAR)
+  vita_create_vpk(Moktar.vpk ${VITA_TITLEID} eboot.bin
+    VERSION ${VITA_VERSION}
+    NAME ${VITA_APPNAME}
+    FILE vita/icon0.png sce_sys/icon0.png
+    FILE vita/bg_moktar.png sce_sys/livearea/contents/bg.png
+    FILE vita/startup_moktar.png sce_sys/livearea/contents/startup.png
+    FILE vita/template.xml sce_sys/livearea/contents/template.xml
+    FILE vita/vita_moktar.conf titus_vita.conf
+  )
+endif()
+
+unset(TITUS CACHE)
+unset(MOKTAR CACHE)
