@@ -1089,7 +1089,13 @@ DEC_ENERGY(TITUS_level *level) {
         if (player->hp < 0) {
             player->hp = 0;
             DEC_LIFE(level);
+#ifdef __PSP2__
+		} else {
+            GODMODE = true;
+            godtick = SDL_GetTicks();
+#endif
         }
+
     }
 }
 
