@@ -3,11 +3,11 @@
 ## Installation
 Data files are **not** provided as Titus is always sold (on GOG, for example).<br/><br/>
 For Titus:
- - Download this [VPK](https://www.ferb.fr/vita/vpks/Titus.vpk)
+ - Download the latest revision of Titus.vpk in the [Releases](https://github.com/usineur/opentitus/releases) section.
  - Place the original game files (``*.SQZ``) and the file ``music_ttf.bin`` in ``ux0:/data/titus/``.
 
 For Moktar:
- - Download this [VPK](https://www.ferb.fr/vita/vpks/Moktar.vpk)
+ - Download the latest revision of Moktar.vpk in the [Releases](https://github.com/usineur/opentitus/releases) section.
  - Place the original game files  (``*.SQZ``) and the file ``music_mok.bin`` in ``ux0:/data/moktar/``.
 
 ## Controls:
