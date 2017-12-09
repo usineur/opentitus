@@ -29,7 +29,7 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
-#ifdef __PSP2__
+#ifdef __vita__
 #define OPENTITUS_CONFIG_FILE "app0:/titus_vita.conf"
 #else
 #define OPENTITUS_CONFIG_FILE "titus_moktar.conf"

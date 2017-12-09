@@ -51,7 +51,7 @@
 #include "audio.h"
 #endif
 
-#ifdef __PSP2__
+#ifdef __vita__
 #include <kbdvita.h>
 #endif
 
@@ -180,7 +180,7 @@ int viewmenu(char * menufile, int menuformat) {
                 return (-1);
             }
 
-#ifdef __PSP2__
+#ifdef __vita__
             if (event.type == SDL_JOYBUTTONDOWN) {
                 if (event.jbutton.button == SDLK_ESCAPE) {
 #else
@@ -191,7 +191,7 @@ int viewmenu(char * menufile, int menuformat) {
                     return (-1);
                 }
 #ifdef AUDIO_ENABLED
-#ifdef __PSP2__
+#ifdef __vita__
                 if (event.jbutton.button == KEY_MUSIC) {
 #else
                 if (event.key.keysym.sym == KEY_MUSIC) {
@@ -241,7 +241,7 @@ int viewmenu(char * menufile, int menuformat) {
                 return (-1);
             }
 
-#ifdef __PSP2__
+#ifdef __vita__
             if (event.type == SDL_JOYBUTTONDOWN) {
                 if (event.jbutton.button == SDLK_ESCAPE) {
 #else
@@ -251,26 +251,26 @@ int viewmenu(char * menufile, int menuformat) {
                     SDL_FreeSurface(image);
                     return (-1);
                 }
-#ifdef __PSP2__
+#ifdef __vita__
                 if (event.jbutton.button == KEY_UP)
 #else
                 if (event.key.keysym.sym == KEY_UP)
 #endif
                     selection = 0;
-#ifdef __PSP2__
+#ifdef __vita__
                 if (event.jbutton.button == KEY_DOWN)
 #else
                 if (event.key.keysym.sym == KEY_DOWN)
 #endif
                     selection = 1;
-#ifdef __PSP2__
+#ifdef __vita__
                 if (event.jbutton.button == KEY_RETURN || event.jbutton.button == KEY_ENTER || event.jbutton.button == KEY_SPACE)
 #else
                 if (event.key.keysym.sym == KEY_RETURN || event.key.keysym.sym == KEY_ENTER || event.key.keysym.sym == KEY_SPACE)
 #endif
                     menuloop = 0;
 #ifdef AUDIO_ENABLED
-#ifdef __PSP2__
+#ifdef __vita__
                 if (event.jbutton.button == KEY_MUSIC) {
 #else
                 if (event.key.keysym.sym == KEY_MUSIC) {
@@ -339,7 +339,7 @@ int viewmenu(char * menufile, int menuformat) {
                 return (-1);
             }
 
-#ifdef __PSP2__
+#ifdef __vita__
             if (event.type == SDL_JOYBUTTONDOWN) {
                 if (event.jbutton.button == SDLK_ESCAPE) {
 #else
@@ -350,7 +350,7 @@ int viewmenu(char * menufile, int menuformat) {
                     return (-1);
                 }
 #ifdef AUDIO_ENABLED
-#ifdef __PSP2__
+#ifdef __vita__
                 if (event.jbutton.button == KEY_MUSIC) {
 #else
                 if (event.key.keysym.sym == KEY_MUSIC) {
@@ -411,7 +411,7 @@ int enterpassword(){
     int counter = 0;
 #endif
 
-#ifdef __PSP2__
+#ifdef __vita__
     char *str = kbdvita_get("Enter your code", 4);
     strncpy(code, (str != NULL) ? str : "0000", 4);
     for (char* c = code; *c = toupper(*c); ++c);

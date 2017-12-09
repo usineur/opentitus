@@ -27,7 +27,7 @@ project(${VITA_APPNAME})
 include("${VITASDK}/share/vita.cmake" REQUIRED)
 
 # Flags and includes
-set(CMAKE_C_FLAGS "${CMAKE_CXX_FLAGS} -D__PSP2__ -fno-exceptions")
+set(CMAKE_C_FLAGS "${CMAKE_CXX_FLAGS} -fno-exceptions")
 
 include_directories(
   include

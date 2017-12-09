@@ -133,7 +133,7 @@ uint8 RESET_LEVEL(TITUS_level *level) {
             while(SDL_PollEvent(&event)) { //Check all events
                 if (event.type == SDL_QUIT) {
                     return TITUS_ERROR_QUIT;
-#ifdef __PSP2__
+#ifdef __vita__
                 } else if (event.type == SDL_JOYBUTTONDOWN) {
                     if (event.jbutton.button == KEY_ESC) {
 #else
@@ -141,7 +141,7 @@ uint8 RESET_LEVEL(TITUS_level *level) {
                     if (event.key.keysym.sym == KEY_ESC) {
 #endif
                         return TITUS_ERROR_QUIT;
-#ifdef __PSP2__
+#ifdef __vita__
                     } else if (event.jbutton.button == KEY_MUSIC) {
 #else
                     } else if (event.key.keysym.sym == KEY_MUSIC) {
@@ -156,7 +156,7 @@ uint8 RESET_LEVEL(TITUS_level *level) {
 #endif
 						}
 					}
-#ifdef __PSP2__
+#ifdef __vita__
                 } else if (event.type == SDL_JOYBUTTONUP) {
                     if (event.jbutton.button == KEY_RETURN || event.jbutton.button == KEY_ENTER || event.jbutton.button == KEY_SPACE) {
 #else

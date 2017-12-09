@@ -51,7 +51,7 @@ int waitforbutton() {
             if (event.type == SDL_QUIT)
                 waiting = -1;
 
-#ifdef __PSP2__
+#ifdef __vita__
             if (event.type == SDL_JOYBUTTONDOWN) {
                 if (event.jbutton.button == KEY_RETURN || event.jbutton.button == KEY_ENTER || event.jbutton.button == KEY_SPACE)
 #else
@@ -60,7 +60,7 @@ int waitforbutton() {
 #endif
                     waiting = 0;
 
-#ifdef __PSP2__
+#ifdef __vita__
                 if (event.jbutton.button == KEY_ESC)
 #else
                 if (event.key.keysym.sym == SDLK_ESCAPE)
@@ -68,7 +68,7 @@ int waitforbutton() {
                     waiting = -1;
 
 #ifdef AUDIO_ENABLED
-#if __PSP2__
+#if __vita__
                 if (event.jbutton.button == KEY_MUSIC) {
 #else
                 if (event.key.keysym.sym == KEY_MUSIC) {

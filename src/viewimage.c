@@ -195,7 +195,7 @@ int viewimage(char * imagefile, int imageformat, int displayformat, int delay) {
                     return (-1);
                 }
 
-#ifdef __PSP2__
+#ifdef __vita__
                 if (event.type == SDL_JOYBUTTONDOWN) {
                     if (event.jbutton.button == SDLK_ESCAPE) {
 #else
@@ -207,7 +207,7 @@ int viewimage(char * imagefile, int imageformat, int displayformat, int delay) {
                         return (-1);
                     }
 
-#ifdef __PSP2__
+#ifdef __vita__
                     if (event.jbutton.button == KEY_RETURN || event.jbutton.button == KEY_ENTER || event.jbutton.button == KEY_SPACE) {
 #else
                     if (event.key.keysym.sym == KEY_RETURN || event.key.keysym.sym == KEY_ENTER || event.key.keysym.sym == KEY_SPACE) {
@@ -217,7 +217,7 @@ int viewimage(char * imagefile, int imageformat, int displayformat, int delay) {
                     }
 
 #ifdef AUDIO_ENABLED
-#ifdef __PSP2__
+#ifdef __vita__
                     if (event.jbutton.button == KEY_MUSIC) {
 #else
                     if (event.key.keysym.sym == KEY_MUSIC) {
@@ -265,7 +265,7 @@ int viewimage(char * imagefile, int imageformat, int displayformat, int delay) {
                     return (-1);
                 }
 
-#ifdef __PSP2__
+#ifdef __vita__
                 if (event.type == SDL_JOYBUTTONDOWN) {
                     if (event.jbutton.button == SDLK_ESCAPE) {
 #else
@@ -277,7 +277,7 @@ int viewimage(char * imagefile, int imageformat, int displayformat, int delay) {
                         return (-1);
                     }
 
-#ifdef __PSP2__
+#ifdef __vita__
                     if (event.jbutton.button == KEY_RETURN || event.jbutton.button == KEY_ENTER || event.jbutton.button == KEY_SPACE)
 #else
                     if (event.key.keysym.sym == KEY_RETURN || event.key.keysym.sym == KEY_ENTER || event.key.keysym.sym == KEY_SPACE)
@@ -285,7 +285,7 @@ int viewimage(char * imagefile, int imageformat, int displayformat, int delay) {
                         activedelay = 0;
 
 #ifdef AUDIO_ENABLED
-#ifdef __PSP2__
+#ifdef __vita__
                     if (event.jbutton.button == KEY_MUSIC) {
 #else
                     if (event.key.keysym.sym == KEY_MUSIC) {
@@ -326,7 +326,7 @@ int viewimage(char * imagefile, int imageformat, int displayformat, int delay) {
                     return (-1);
                 }
 
-#ifdef __PSP2__
+#ifdef __vita__
                 if (event.type == SDL_JOYBUTTONDOWN) {
                     if (event.jbutton.button == SDLK_ESCAPE) {
 #else
@@ -338,7 +338,7 @@ int viewimage(char * imagefile, int imageformat, int displayformat, int delay) {
                         return (-1);
                     }
 #ifdef AUDIO_ENABLED
-#ifdef __PSP2__
+#ifdef __vita__
                     if (event.jbutton.button == KEY_MUSIC) {
 #else
                     if (event.key.keysym.sym == KEY_MUSIC) {
@@ -399,7 +399,7 @@ int viewimage(char * imagefile, int imageformat, int displayformat, int delay) {
                     return (-1);
                 }
 
-#ifdef __PSP2__
+#ifdef __vita__
                 if (event.type == SDL_JOYBUTTONDOWN) {
                     if (event.jbutton.button == SDLK_ESCAPE) {
 #else
@@ -411,7 +411,7 @@ int viewimage(char * imagefile, int imageformat, int displayformat, int delay) {
                         return (-1);
                     }
 #ifdef AUDIO_ENABLED
-#ifdef __PSP2__
+#ifdef __vita__
                     if (event.jbutton.button == KEY_MUSIC) {
 #else
                     if (event.key.keysym.sym == KEY_MUSIC) {

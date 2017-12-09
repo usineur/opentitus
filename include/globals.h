@@ -71,7 +71,7 @@
 #define KEY_DEBUG       DINGOO_BUTTON_Y //Toggle debug mode
 #define KEY_MUSIC       DINGOO_BUTTON_Y //Toggle music
 
-#elif __PSP2__
+#elif __vita__
 
 #define KEY_F1          SDLK_F1 //Loose a life, not in use
 #define KEY_F2          SDLK_F2 //Game over, not in use
@@ -255,7 +255,7 @@ SPRITEDATA spritedata[256];
 
 uint16 level_code[16];
 
-#ifdef __PSP2__
+#ifdef __vita__
 SDL_Joystick* joystick;
 int godtick;
 #endif

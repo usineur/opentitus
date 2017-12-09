@@ -226,7 +226,7 @@ DISPLAY_SPRITES(TITUS_level *level) {
         display_sprite(level, &(level->object[i].sprite));
     }
 
-#ifdef __PSP2__
+#ifdef __vita__
     int tick_ = SDL_GetTicks();
     if (GODMODE && ((tick_ - godtick) < 2000)) { // Invincible during 2 seconds after a hit
         if ((tick_ % 100) > 25) {
@@ -246,7 +246,7 @@ DISPLAY_SPRITES(TITUS_level *level) {
     display_sprite(level, &(level->player.sprite));
 #endif
 
-#ifndef __PSP2__
+#ifndef __vita__
     if (GODMODE) {
         SDL_Print_Text("GODMODE", 30 * 8, 0 * 12);
     }
@@ -427,7 +427,7 @@ int flip_screen(bool slow) {
     tick = SDL_GetTicks();
     SUBTIME[14] = tick - oldtick;
     
-#if defined(_DINGUX) || defined(__PSP2__)
+#if defined(_DINGUX) || defined(__vita__)
     if (slow) {
         NO_FAST_CPU(slow);
     }
@@ -672,7 +672,7 @@ int fadeout() {
                 return (-1);
             }
 
-#ifdef __PSP2__
+#ifdef __vita__
             if (event.type == SDL_JOYBUTTONDOWN) {
                 if (event.jbutton.button == SDLK_ESCAPE) {
 #else
@@ -683,7 +683,7 @@ int fadeout() {
                     return (-1);
                 }
 #ifdef AUDIO_ENABLED
-#ifdef __PSP2__
+#ifdef __vita__
                 if (event.jbutton.button == KEY_MUSIC) {
 #else
                 if (event.key.keysym.sym == KEY_MUSIC) {

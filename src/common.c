@@ -45,7 +45,7 @@ int subto0(uint8 *number) {
 
 int titus_sleep() {
 	//refreshaudio();
-#if !defined(_DINGUX) && !defined(__PSP2__)
+#if !defined(_DINGUX) && !defined(__vita__)
     SDL_Delay(1);
 #endif
 

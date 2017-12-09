@@ -762,7 +762,7 @@ int WAIT_SONG(){
             if (event.type == SDL_QUIT) {
                 return TITUS_ERROR_QUIT;
             } else if (event.type == SDL_KEYDOWN) {
-#ifdef __PSP2__
+#ifdef __vita__
            } else if (event.type == SDL_JOYBUTTONDOWN) {
                 if (event.jbutton.button == KEY_ESC) {
 #else
@@ -770,7 +770,7 @@ int WAIT_SONG(){
                 if (event.key.keysym.sym == KEY_ESC) {
 #endif
                     return TITUS_ERROR_QUIT;
-#ifdef __PSP2__
+#ifdef __vita__
                 } else if (event.jbutton.button == KEY_MUSIC) {
 #else
                 } else if (event.key.keysym.sym == KEY_MUSIC) {

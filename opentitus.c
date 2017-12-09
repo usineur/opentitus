@@ -75,7 +75,7 @@ int main(int argc, char *argv[]) {
     if (retval < 0)
         state = 0;
 
-#ifndef __PSP2__
+#ifndef __vita__
     if (state) {
         retval = viewintrotext();
         if (retval < 0)
@@ -152,7 +152,7 @@ int init() {
     //fullscreen
     SDL_ShowCursor(SDL_DISABLE);
     screen = SDL_SetVideoMode(reswidth, resheight, bitdepth, SDL_SWSURFACE);
-#elif __PSP2__
+#elif __vita__
     SDL_ShowCursor(SDL_DISABLE);
     screen = SDL_SetVideoMode(reswidth, resheight, bitdepth, SDL_HWSURFACE|SDL_DOUBLEBUF);
 

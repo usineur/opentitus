@@ -56,7 +56,7 @@ int16 add_carry();
 
 
 int buttonPressed(int i) {
-#ifdef __PSP2__
+#ifdef __vita__
     return SDL_JoystickGetButton(joystick, i);
 #else
     return 0;
@@ -84,13 +84,13 @@ int move_player(TITUS_level *level) {
     while(SDL_PollEvent(&event)) { //Check all events
         if (event.type == SDL_QUIT) {
             return TITUS_ERROR_QUIT;
-#ifdef __PSP2__
+#ifdef __vita__
         } else if (event.type == SDL_JOYBUTTONDOWN) {
 #else
         } else if (event.type == SDL_KEYDOWN) {
 #endif
-#if defined(_DINGUX) || defined(__PSP2__)
-#ifdef __PSP2__
+#if defined(_DINGUX) || defined(__vita__)
+#ifdef __vita__
             if (event.jbutton.button == KEY_CHEAT && (devmode == 1)) {
 #else
             if (event.key.keysym.sym == KEY_CHEAT && (devmode == 1)) {
@@ -119,7 +119,7 @@ int move_player(TITUS_level *level) {
                         }
                     }
                 }
-#ifdef __PSP2__
+#ifdef __vita__
             } else if (event.jbutton.button == KEY_STATUS) {
 #else
             } else if (event.key.keysym.sym == KEY_STATUS) {
@@ -168,7 +168,7 @@ int move_player(TITUS_level *level) {
 				}
 #endif //DEBUG_VERSION
 #else //_DINGUX
-#ifdef __PSP2__
+#ifdef __vita__
             if ((event.jbutton.button == KEY_GODMODE) && (devmode == 1)) {
 #else
             if ((event.key.keysym.sym == KEY_GODMODE) && (devmode == 1)) {
@@ -179,7 +179,7 @@ int move_player(TITUS_level *level) {
                 } else {
                     GODMODE = true;
                 }
-#ifdef __PSP2__
+#ifdef __vita__
             } else if ((event.jbutton.button == KEY_NOCLIP) && (devmode == 1)) {
 #else
             } else if ((event.key.keysym.sym == KEY_NOCLIP) && (devmode == 1)) {
@@ -190,7 +190,7 @@ int move_player(TITUS_level *level) {
                     NOCLIP = true;
                     GODMODE = true;
                 }
-#ifdef __PSP2__
+#ifdef __vita__
             } else if (event.jbutton.button == KEY_MUSIC) {
 #else
             } else if (event.key.keysym.sym == KEY_MUSIC) {
@@ -241,7 +241,7 @@ int move_player(TITUS_level *level) {
     if (keystate[KEY_ESC] || buttonPressed(KEY_ESC)) {
         return TITUS_ERROR_QUIT;
     }
-#if defined(_DINGUX) || defined(__PSP2__)
+#if defined(_DINGUX) || defined(__vita__)
 
 #else
     if (keystate[KEY_F1] && (RESETLEVEL_FLAG == 0)) { //F1 = suicide
@@ -506,7 +506,7 @@ t_pause (TITUS_level *level) {
         while(SDL_PollEvent(&event)) { //Check all events
             if (event.type == SDL_QUIT) {
                 return TITUS_ERROR_QUIT;
-#ifdef __PSP2__
+#ifdef __vita__
             } else if (event.type == SDL_JOYBUTTONDOWN) {
                 if (event.jbutton.button == KEY_ESC) {
 #else
@@ -514,7 +514,7 @@ t_pause (TITUS_level *level) {
                 if (event.key.keysym.sym == KEY_ESC) {
 #endif
                     return TITUS_ERROR_QUIT;
-#ifdef __PSP2__
+#ifdef __vita__
                 } else if (event.jbutton.button == KEY_MUSIC) {
 #else
                 } else if (event.key.keysym.sym == KEY_MUSIC) {
@@ -528,7 +528,7 @@ t_pause (TITUS_level *level) {
 						startmusic();
 #endif
 					}
-#ifdef __PSP2__
+#ifdef __vita__
                 } else if (event.jbutton.button == KEY_P) {
 #else
                 } else if (event.key.keysym.sym == KEY_P) {
@@ -1089,7 +1089,7 @@ DEC_ENERGY(TITUS_level *level) {
         if (player->hp < 0) {
             player->hp = 0;
             DEC_LIFE(level);
-#ifdef __PSP2__
+#ifdef __vita__
 		} else {
             GODMODE = true;
             godtick = SDL_GetTicks();

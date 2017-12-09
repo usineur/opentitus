@@ -163,7 +163,7 @@ int playtitus(int firstlevel){
 		}
 
         first = true;
-#ifdef __PSP2__
+#ifdef __vita__
         GODMODE = false;
 #endif
         while (1) {
@@ -172,7 +172,7 @@ int playtitus(int firstlevel){
 #endif
             CLEAR_DATA(&level);
 
-#ifndef __PSP2__
+#ifndef __vita__
             GODMODE = false;
 #endif
             NOCLIP = false;
@@ -416,7 +416,7 @@ int death(TITUS_level *level) {
 #ifdef AUDIO_ENABLED
     WAIT_SONG();
 #endif
-#if !defined(_DINGUX) && !defined(__PSP2__)
+#if !defined(_DINGUX) && !defined(__vita__)
     CLOSE_SCREEN();
 #endif
 }
