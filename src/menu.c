@@ -412,7 +412,7 @@ int enterpassword(){
 #endif
 
 #ifdef __vita__
-    char *str = kbdvita_get("Enter your code", 4);
+    char *str = kbdvita_get("Enter your code", "", 4);
     strncpy(code, (str != NULL) ? str : "0000", 4);
     for (char* c = code; *c = toupper(*c); ++c);
     SDL_Print_Text(code, 159, 80);
