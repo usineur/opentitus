@@ -54,7 +54,7 @@ target_link_libraries(${VITA_APPNAME}
   ogg
   opl_vita
   kbdvita
-  vita2d
+  vitaGL
   m
   SceAppUtil_stub
   SceAudio_stub
