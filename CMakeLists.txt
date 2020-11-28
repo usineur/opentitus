@@ -27,7 +27,7 @@ project(${VITA_APPNAME})
 include("${VITASDK}/share/vita.cmake" REQUIRED)
 
 # Flags and includes
-set(CMAKE_C_FLAGS "${CMAKE_CXX_FLAGS} -fno-exceptions")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wl,--allow-multiple-definition -fno-exceptions")
 
 include_directories(
   include
@@ -47,15 +47,19 @@ add_executable(${VITA_APPNAME}
 )
 
 target_link_libraries(${VITA_APPNAME}
+  opl_vita
   SDL_mixer
   SDL
   vorbisfile
   vorbis
   ogg
-  opl_vita
+  mikmod
   kbdvita
   vitaGL
+  vitashark
+  mathneon
   m
+  SceAppMgr_stub
   SceAppUtil_stub
   SceAudio_stub
   SceCommonDialog_stub
@@ -63,6 +67,7 @@ target_link_libraries(${VITA_APPNAME}
   SceDisplay_stub
   SceGxm_stub
   SceHid_stub
+  SceShaccCg_stub
   SceSysmodule_stub
 )
 
